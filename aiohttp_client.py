@@ -1,5 +1,6 @@
 # Test module for asyncio and aiohttp
 import asyncio
+import async_timeout
 import aiohttp
 import json
 import logging
@@ -18,7 +19,7 @@ class HTTPRestClient(object):
 
     @asyncio.coroutine
     def do_get(self, url, params=None, timeout=None):
-        with aiohttp.Timeout(timeout):
+        with async_timeout.Timeout(timeout):
             resp = yield from self.session.get(url, params=params)
             try:
                 # Any actions that may lead to error:
@@ -35,7 +36,7 @@ class HTTPRestClient(object):
 
     @asyncio.coroutine
     def do_post(self, url, data, content_type='application/json', timeout=None):
-        with aiohttp.Timeout(timeout):
+        with async_timeout.Timeout(timeout):
             headers = {'content-type': content_type}
             resp = yield from self.session.post(url, data=data, headers=headers)
             try:
@@ -48,7 +49,7 @@ class HTTPRestClient(object):
 
     @asyncio.coroutine
     def do_put(self, url, data, content_type='application/json', timeout=None):
-        with aiohttp.Timeout(timeout):
+        with async_timeout.Timeout(timeout):
             headers = {'content-type': content_type}
             resp = yield from self.session.put(url, data=data, headers=headers)
             try:
@@ -61,7 +62,7 @@ class HTTPRestClient(object):
 
     @asyncio.coroutine
     def do_delete(self, url, timeout=None):
-        with aiohttp.Timeout(timeout):
+        with async_timeout.Timeout(timeout):
             resp = yield from self.session.delete(url)
             try:
                 return (yield from resp.text())
