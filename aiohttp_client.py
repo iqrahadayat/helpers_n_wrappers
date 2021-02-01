@@ -19,7 +19,7 @@ class HTTPRestClient(object):
 
     @asyncio.coroutine
     def do_get(self, url, params=None, timeout=None):
-        with async_timeout.Timeout(timeout):
+        with async_timeout.timeout(timeout):
             resp = yield from self.session.get(url, params=params)
             try:
                 # Any actions that may lead to error:
@@ -36,7 +36,7 @@ class HTTPRestClient(object):
 
     @asyncio.coroutine
     def do_post(self, url, data, content_type='application/json', timeout=None):
-        with async_timeout.Timeout(timeout):
+        with async_timeout.timeout(timeout):
             headers = {'content-type': content_type}
             resp = yield from self.session.post(url, data=data, headers=headers)
             try:
@@ -49,7 +49,7 @@ class HTTPRestClient(object):
 
     @asyncio.coroutine
     def do_put(self, url, data, content_type='application/json', timeout=None):
-        with async_timeout.Timeout(timeout):
+        with async_timeout.timeout(timeout):
             headers = {'content-type': content_type}
             resp = yield from self.session.put(url, data=data, headers=headers)
             try:
@@ -62,7 +62,7 @@ class HTTPRestClient(object):
 
     @asyncio.coroutine
     def do_delete(self, url, timeout=None):
-        with async_timeout.Timeout(timeout):
+        with async_timeout.timeout(timeout):
             resp = yield from self.session.delete(url)
             try:
                 return (yield from resp.text())
