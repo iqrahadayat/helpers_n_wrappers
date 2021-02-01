@@ -19,7 +19,7 @@ class HTTPRestClient(object):
 
     @asyncio.coroutine
     def do_get(self, url, params=None, timeout=None):
-        with async_timeout.timeout(timeout):
+        with async_timeout.timeout1(timeout):
             resp = yield from self.session.get(url, params=params)
             try:
                 # Any actions that may lead to error:
